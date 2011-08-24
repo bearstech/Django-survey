@@ -16,9 +16,11 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.list_detail import object_list
 from django.views.generic.create_update import delete_object
+from django.contrib.auth.decorators import login_required
 
 from survey.forms import forms_for_survey, SurveyForm, QuestionForm, ChoiceForm
 from survey.models import Survey, Answer, Question, Choice
+from django.contrib.auth.decorators import login_required
 
 
 def _survey_redirect(request, survey,
@@ -477,3 +479,11 @@ def delete_image(request, model_string,object_id):
     return render_to_response('survey/image_confirm_delete.html',
         {"object" : object},
         context_instance=RequestContext(request))
+
+
+@login_required
+def ajax(request, template_name='survey/ajax.html'):
+    return render_to_response(template_name, {
+    }, context_instance=RequestContext(request))
+    
+    

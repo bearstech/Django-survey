@@ -12,7 +12,8 @@ from views import answers_list, answers_detail,\
                 editable_survey_list, survey_delete, survey_update,\
                 question_add, question_update,question_delete,\
                 choice_add, choice_update, choice_delete, delete_image,\
-                visible_survey_list
+                visible_survey_list, \
+                ajax
 
 
 urlpatterns = patterns('',
@@ -41,4 +42,21 @@ urlpatterns = patterns('',
     url(r'^choice/delete/(?P<survey_slug>[-\w]+)/(?P<choice_id>\d+)/$', choice_delete,   name='choice-delete'),
 
     url(r'^delete_image/(?P<model_string>[-\w]+)/(?P<object_id>\d+)/$', delete_image, name='delete-image'),
+    url(r'^admin/$', ajax),
+    
+    url(r'^api/surveys$', 'survey.api.surveys'),
+    url(r'^api/surveys/(?P<survey_id>\d+)$', 'survey.api.surveys'),
+    
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions$', 'survey.api.questions'),
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+)$', 'survey.api.questions'),
+    url(r'^api/surveys/(?P<survey_id>\d+)/recalculate_orders$', 'survey.api.question_recalculate_orders'),
+
+    
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+).form$', 'survey.api.edit_question'),
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+)/choices$', 'survey.api.choices'),
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+)/choices/(?P<choice_id>\d+)$', 'survey.api.choices'),
+    
+    url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+)/choices/recalculate_orders$', 'survey.api.choice_recalculate_orders'),
+
+    
     )

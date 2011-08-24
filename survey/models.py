@@ -170,7 +170,8 @@ class Question(models.Model):
     survey = models.ForeignKey(Survey, related_name='questions',
                                  verbose_name=_('survey'))
     qtype = models.CharField(_('question type'), max_length=2,
-                                choices=QTYPE_CHOICES)
+                                choices=QTYPE_CHOICES,
+                                default='T')
     required = models.BooleanField(_('required'), default=True)
     text     = models.TextField(_('question text'))
     order = models.IntegerField(verbose_name = _("order"),

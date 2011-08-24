@@ -27,6 +27,6 @@ setup(
       ],
       packages=find_packages(exclude=['ez_setup', 'examples', 'test_project']),
       package_data={
-          'survey': ['templates/*', 'locale'],
+          'survey': ['templates/', 'locale/*/LC_MESSAGES/*', 'static/*'],
       },
       )
