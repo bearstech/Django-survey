@@ -14,7 +14,6 @@ setup(
       url='http://code.google.com/p/django-survey/',
       keywords='django',
       license='GPL',
-      packages=find_packages(exclude=['ez_setup', 'examples', 'test_project']),
       include_package_data=True,
       zip_safe=False,
       classifiers=[
@@ -26,4 +25,8 @@ setup(
             'Programming Language :: Python',
             'Framework :: Django',
       ],
+      packages=find_packages(exclude=['ez_setup', 'examples', 'test_project']),
+      package_data={
+          'survey': ['templates/*', 'locale'],
+      },
       )
