@@ -21,7 +21,7 @@ Survey.Data.SurveyListStore = function(){
         remoteSort: true,
         restful: true,
         proxy: new Ext.data.HttpProxy({
-            url: '/betatest/survey/api/surveys',
+            url: _baseUrl + 'surveys',
             method: 'GET'
         })
     });

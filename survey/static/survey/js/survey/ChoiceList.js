@@ -24,7 +24,7 @@ Survey.Data.ChoiceListStore = function(){
             url: '/',
             method: 'GET'
         }),
-        template_url : '/betatest/survey/api/surveys/{0}/questions/{1}/choices',
+        template_url : _baseUrl + 'surveys/{0}/questions/{1}/choices',
         setQuestion : function(store, survey_id, question_id) {
         	var url = String.format(store.template_url, survey_id, question_id);
         	store.proxy.setUrl(url, true);        	
@@ -38,7 +38,7 @@ Survey.Data.ChoiceListStore = function(){
 //------------------------------------------
 Survey.Handler.RecalculateChoiceOrders = function(grid, survey_id, question_id) {
     Ext.Ajax.request({
-        url: String.format('/betatest/survey/api/surveys/{0}/questions/{1}/choices/recalculate_orders', survey_id, question_id),
+        url: String.format('{0}surveys/{1}/questions/{2}/choices/recalculate_orders', _baseUrl, survey_id, question_id),
         failure: function(result, request){
         },
         success: function(result, request){

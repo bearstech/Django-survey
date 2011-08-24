@@ -44,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^delete_image/(?P<model_string>[-\w]+)/(?P<object_id>\d+)/$', delete_image, name='delete-image'),
     url(r'^admin/$', ajax),
     
+    url(r'^api/$', 'survey.api.base'),
     url(r'^api/surveys$', 'survey.api.surveys'),
     url(r'^api/surveys/(?P<survey_id>\d+)$', 'survey.api.surveys'),
     

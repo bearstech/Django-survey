@@ -18,7 +18,7 @@ Survey.UI.QuestionDetails = function() {
         id: 'question-details'
     });
     Ext.ux.msgBus.subscribe('question.selected', function(survey_id, question_id) {
-        var url = String.format('/betatest/survey/api/surveys/{0}/questions/{1}.form', survey_id, question_id);
+        var url = String.format('{0}surveys/{1}/questions/{2}.form', _baseUrl, survey_id, question_id);
         params = {
         };
         form.setDisabled(false);

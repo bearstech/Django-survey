@@ -24,6 +24,9 @@ from extjs import utils
 from api_forms import QuestionForm, ChoiceForm
 import api_utils
 
+def base(request):
+    raise Http404
+
 @login_required
 def surveys(request, survey_id=None):
     if request.method == 'GET':
