@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-10 17:19-0400\n"
+"POT-Creation-Date: 2010-02-15 15:00+0100\n"
 "PO-Revision-Date: 2008-07-23 10:13+0100\n"
 "Last-Translator: Yann Malet <yann.malet@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,43 +15,48 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: forms.py:32
+#: forms.py:46
 msgid "this question is optional"
 msgstr "cette question est optionnelle"
 
-#: forms.py:48 forms.py:107 forms.py:141 forms.py:149
+#: forms.py:66 forms.py:155 forms.py:197 forms.py:205
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
-#: forms.py:144
+#: forms.py:103
+#, python-format
+msgid "Please enter a %s or less digits number."
+msgstr "Veuillez entrer un nombre à %s chiffres ou moins."
+
+#: forms.py:200
 msgid "Invalid Choice."
 msgstr "Choix invalide"
 
-#: forms.py:220
+#: forms.py:279
 msgid "Date:"
 msgstr "Date :"
 
-#: forms.py:220
+#: forms.py:279
 msgid "Time:"
 msgstr "Heure:"
 
-#: forms.py:234 forms.py:237
+#: forms.py:293 forms.py:296
 msgid "The title of the survey must be unique."
 msgstr "Le titre de l'étude doit être unique."
 
-#: models.py:35
+#: models.py:40
 msgid "survey title"
 msgstr "titre de l'étude"
 
-#: models.py:36
+#: models.py:41
 msgid "slug"
 msgstr "slug"
 
-#: models.py:37
+#: models.py:42
 msgid "description"
 msgstr "description"
 
-#: models.py:38
+#: models.py:43
 msgid ""
 "This field appears on the public web site and should give an overview to the "
 "interviewee"
@@ -59,35 +64,35 @@ msgstr ""
 "Ce champ apparaît sur le site publique et doit donner un appercu à "
 "l'utilisateur"
 
-#: models.py:42
+#: models.py:47
 msgid "survey starts accepting submissions on"
 msgstr "l'étude commence à accepter des soummission le :"
 
-#: models.py:43
+#: models.py:48
 msgid "survey stops accepting submissions on"
 msgstr "l'étude n'accepte plus de soumission à partir du"
 
-#: models.py:45
+#: models.py:50
 msgid "survey is visible"
 msgstr "étude est visible"
 
-#: models.py:46
+#: models.py:51
 msgid "survey results are public"
 msgstr "les resultats de l'étude sont publique"
 
-#: models.py:47
+#: models.py:52
 msgid "restrict the survey to authentified user"
 msgstr "retreindre l'étude aux utilisateurs authentifiés"
 
-#: models.py:49
+#: models.py:54
 msgid "allows multiple interviews"
 msgstr "permettre plusieurs interviews"
 
-#: models.py:51
+#: models.py:56
 msgid "template name"
 msgstr "nom du template"
 
-#: models.py:53
+#: models.py:58
 msgid ""
 "This field is used to define a custom template (Example: 'dj_survey/template/"
 "my_add_interview_forms.html')."
@@ -95,79 +100,79 @@ msgstr ""
 "Ce champ peut être utilisé pour definir un template paramétré (Exemple: "
 "'dj_survey/template/my_add_interview_forms.html')."
 
-#: models.py:100
+#: models.py:105
 msgid "private"
 msgstr "privée"
 
-#: models.py:101
+#: models.py:106
 msgid "open"
 msgstr "ouverte"
 
-#: models.py:103
+#: models.py:108
 msgid "opens "
 msgstr "ouvert"
 
-#: models.py:104
+#: models.py:109
 msgid "closed"
 msgstr "fermée"
 
-#: models.py:161
+#: models.py:171
 msgid "survey"
 msgstr "étude"
 
-#: models.py:162
+#: models.py:172
 msgid "question type"
 msgstr "type de question"
 
-#: models.py:164
+#: models.py:174
 msgid "required"
 msgstr "obligatoire"
 
-#: models.py:165
+#: models.py:175
 msgid "question text"
 msgstr "texte de la question"
 
-#: models.py:166 models.py:227 templates/survey/survey_edit.html:14
+#: models.py:176 models.py:238 templates/survey/survey_edit.html:14
 msgid "order"
 msgstr "ordre"
 
-#: models.py:170 models.py:223
+#: models.py:180 models.py:234
 msgid "image"
 msgstr "image"
 
-#: models.py:175
+#: models.py:185
 msgid "minimum number of choices"
 msgstr "numbre de choix minimum"
 
-#: models.py:177
+#: models.py:187
 msgid "maximum number of choices"
 msgstr "umbre de choix maximum"
 
-#: models.py:181
+#: models.py:191
 msgid "Html Style"
 msgstr "Style du Html"
 
-#: models.py:219 models.py:255
+#: models.py:230 models.py:266
 msgid "question"
 msgstr "question"
 
-#: models.py:220
+#: models.py:231
 msgid "choice text"
 msgstr "texte du choix"
 
-#: models.py:252
+#: models.py:263
 msgid "user"
 msgstr "utilisateur"
 
-#: models.py:258
+#: models.py:269
 msgid "session key"
 msgstr "clef de la session"
 
-#: models.py:259
+#: models.py:270
 msgid "answer text"
 msgstr "texte de la réponse"
 
-#: models.py:262
+#: models.py:273
 msgid "Interview unique identifier"
 msgstr "Identifiant unique de l'interview"
 
@@ -175,57 +180,62 @@ msgstr "Identifiant unique de l'interview"
 msgid "Thank You"
 msgstr "Merci"
 
-#: views.py:93
+#: views.py:95
 msgid "Cookies must be enabled."
 msgstr "Les \"cookies\" doivent être activés."
 
-#: views.py:156 views.py:184
+#: views.py:159
 msgid "Add a survey"
 msgstr "Ajouter une étude"
 
-#: views.py:204
+#: views.py:186
+#, python-format
+msgid "Update '%s'"
+msgstr "Modifier '%s'"
+
+#: views.py:207
 msgid "Delete survey"
 msgstr "Supprimer une étude"
 
-#: views.py:228 templates/survey/survey_edit.html:30
+#: views.py:231 templates/survey/survey_edit.html:30
 msgid "Add a question"
 msgstr "Ajouter une question"
 
-#: views.py:259
+#: views.py:262
 msgid "Update question"
 msgstr "Modifier cette question"
 
-#: views.py:283
+#: views.py:285
 msgid "Delete question"
 msgstr "Supprimer une question"
 
-#: views.py:308 templates/survey/survey_edit.html:45
+#: views.py:310 templates/survey/survey_edit.html:45
 msgid "Add a choice"
 msgstr "Ajouter un choix"
 
-#: views.py:336
+#: views.py:338
 msgid "Update choice"
 msgstr "Modifier ce choix"
 
-#: views.py:359
+#: views.py:361
 msgid "Delete choice"
 msgstr "Supprimer ce choix"
 
-#: views.py:377 views.py:394 templates/survey/survey_list.html:4
+#: views.py:379 views.py:396 templates/survey/survey_list.html:4
 msgid "Surveys"
 msgstr "Etudes"
 
-#: views.py:417 views.py:447
+#: views.py:419 views.py:449
 msgid "Insufficient Privileges."
 msgstr "autorisation insufisante."
 
-#: views.py:421
+#: views.py:423
 msgid "Results"
 msgstr "Resultats"
 
-#: views.py:450 templates/survey/editable_survey_list.html:19
+#: views.py:452 templates/survey/editable_survey_list.html:19
 msgid "Submission"
-msgstr "Soumettre"
+msgstr "Soumission"
 
 #: templates/admin/survey/choice/edit_inline_tabular.html:14
 #: templates/admin/survey/question/edit_inline_tabular.html:14
@@ -264,15 +274,14 @@ msgid "Delete Image"
 msgstr "Supprimer l'image"
 
 #: templates/survey/choice_add.html:15 templates/survey/question_add.html:16
-#: templates/survey/survey_add.html:19 templates/survey/survey_detail.html:18
+#: templates/survey/survey_add.html:19 templates/survey/survey_detail.html:14
 #: templates/test/survey_detail.html:21
 msgid "Submit"
 msgstr "Envoyer"
 
 #: templates/survey/choice_confirm_delete.html:11
-#: templates/survey/question_confirm_delete.html:11
-#: templates/survey/survey_confirm_delete.html:11
-msgid "Are you sure you want to delete the following survey ?"
+#, fuzzy
+msgid "Are you sure you want to delete the following choice ?"
 msgstr "Êtes-vous certain de vouloir supprimer l'étude suivante ?"
 
 #: templates/survey/editable_survey_list.html:7
@@ -307,12 +316,12 @@ msgstr "Pas de Soumission"
 #: templates/survey/editable_survey_list.html:24
 #: templates/survey/survey_list.html:22
 msgid "completed"
-msgstr ""
+msgstr "rempli"
 
 #: templates/survey/editable_survey_list.html:24
 #: templates/survey/survey_list.html:22
 msgid "this survey."
-msgstr "Cete étude"
+msgstr "cette étude"
 
 #: templates/survey/editable_survey_list.html:26
 msgid "Edit"
@@ -329,6 +338,15 @@ msgstr "Publier"
 #: templates/survey/image_confirm_delete.html:11
 msgid "Are you sure you want to delete this image ?"
 msgstr "Etes vous certain de vouloir Supprimer cette image ?"
+
+#: templates/survey/question_confirm_delete.html:11
+#, fuzzy
+msgid "Are you sure you want to delete the following question ?"
+msgstr "Êtes-vous certain de vouloir supprimer l'étude suivante ?"
+
+#: templates/survey/survey_confirm_delete.html:11
+msgid "Are you sure you want to delete the following survey ?"
+msgstr "Êtes-vous certain de vouloir supprimer l'étude suivante ?"
 
 #: templates/survey/survey_edit.html:11
 msgid "View Online"
@@ -361,7 +379,7 @@ msgstr "Choix"
 
 #: templates/survey/survey_list.html:22
 msgid "You have"
-msgstr ""
+msgstr "Vous avez"
 
 #: templates/survey/thankyou.html:4
 msgid "Thank you for you submission!"

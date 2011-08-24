@@ -17,6 +17,11 @@ from django.contrib.contenttypes import generic
 QTYPE_CHOICES = (
     ('T', 'Text Input'),
     ('A', 'Text Area'),
+    ('i', 'Integer Input'),
+    ('i2', 'Integer Input (2 digits)'),
+    ('i3', 'Integer Input (3 digits)'),
+    ('i4', 'Integer Input (4 digits)'),
+    ('i5', 'Integer Input (5 digits)'),
     ('S', 'Select One Choice'),
     ('R', 'Radio List'),
     ('I', 'Radio Image List'),
@@ -134,7 +139,12 @@ class Survey(models.Model):
             Answer.objects.filter(session_key__exact=session_key.lower(),
             question__survey__id__exact=self.id).distinct().count())
 
-
+    def has_answers_from_user(self, user):
+        """Find if a User has already awsered to survey
+        """
+        return bool(
+            Answer.objects.filter(user=user,
+            question__survey__id__exact=self.id).distinct().count())
 
     def __unicode__(self):
         return u' - '.join([self.slug, self.title])
@@ -193,7 +203,8 @@ class Question(models.Model):
         return u' - '.join([self.survey.slug, self.text])
 
     class Meta:
-        unique_together = (('survey', 'text'),)
+        # http://code.google.com/p/django-survey/issues/detail?id=24
+        # unique_together = (('survey', 'text'),)
         order_with_respect_to='survey'
         ordering = ('survey', 'order')
 
@@ -243,7 +254,7 @@ class Choice(models.Model):
         return self.text
 
     class Meta:
-        unique_together = (('question', 'text'),)
+        #  unique_together = (('question', 'text'),)
         order_with_respect_to='question'
         ordering = ('question', 'order')
 

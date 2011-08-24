@@ -119,6 +119,26 @@ Update a choice::
 >>> response.content.find("may be") > -1
 True
 
+Try to send multiple awsers::
+
+# Update survey
+>>> from survey.models import Survey
+>>> svey = Survey.objects.get(title="test survey update")
+>>> svey.allows_multiple_interviews = False
+>>> svey.save()
+
+>>> response = c.get("/survey/detail/test-survey-update/")
+>>> response.status_code
+302
+
+# Delete sessions
+>>> from django.contrib.sessions.models import Session
+>>> Session.objects.all().delete()
+>>> c.login(username="test_urls",password="test_urls")
+True
+>>> response = c.get("/survey/detail/test-survey-update/")
+>>> response.status_code
+302
 
 Delete a survey ::
 >>> response =  c.post("/survey/delete/test-survey-update/")

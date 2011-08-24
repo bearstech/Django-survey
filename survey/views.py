@@ -79,19 +79,21 @@ def survey_detail(request, survey_slug,
             return HttpResponseRedirect(reverse('survey-results', None, (),
                                                 {'survey_slug': survey_slug}))
         raise Http404 #(_('Page not found.')) # unicode + exceptions = bad
-    # if user has a session and have answered some questions
-    # and the survey does not accept multiple answers,
+    # if user has a session or is authenticated and have answered
+    # some questions and the survey does not accept multiple answers,
     # go ahead and redirect to the answers, or a thank you
-    if (hasattr(request, 'session') and
-        survey.has_answers_from(request.session.session_key) and
-        not survey.allows_multiple_interviews and not allow_edit_existing_answers):
-        return _survey_redirect(request, survey,group_slug=group_slug)
+    if not survey.allows_multiple_interviews and not allow_edit_existing_answers:
+        if ((hasattr(request, 'session') and survey.has_answers_from(request.session.session_key)) or
+        (request.user.is_authenticated and survey.has_answers_from_user(request.user))):
+            return _survey_redirect(request, survey,group_slug=group_slug)
+
     # if the survey is restricted to authentified user redirect
     # annonymous user to the login page
     if survey.restricted and str(request.user) == "AnonymousUser":
-        return HttpResponseRedirect(reverse("auth_login")+"?next=%s" % request.path)
+        return HttpResponseRedirect(reverse("acct_login")+"?next=%s" % request.path)
     if request.POST and not hasattr(request, 'session'):
         return HttpResponse(unicode(_('Cookies must be enabled.')), status=403)
+
     if hasattr(request, 'session'):
         skey = 'survey_%d' % survey.id
         request.session[skey] = (request.session.get(skey, False) or
@@ -119,6 +121,9 @@ def survey_edit(request,survey_slug,
                template_name = "survey/survey_edit.html",
                extra_context=None,
                *args, **kw):
+    if not request.user.is_staff:
+        raise Http404()
+    
     survey = get_object_or_404(Survey, slug=survey_slug)
     return render_to_response(template_name,
                               {'survey': survey,
@@ -135,6 +140,9 @@ def survey_add(request,
                template_name = 'survey/survey_add.html',
                extra_context=None,
                *args, **kw):
+
+    if not request.user.is_staff:
+        raise Http404()
 
     if request.method == "POST":
         request_post = request.POST.copy()
@@ -277,8 +285,7 @@ def question_delete(request,survey_slug,question_id,
     return delete_object(request, object_id=question_id,
         **{"model":Question,
          "post_delete_redirect": reverse("survey-edit",None,(),
-                                         {"survey_slug":survey_slug,
-                                          "group_slug":group_slug}),
+                                         {"survey_slug":survey_slug,}),
          "template_object_name":"question",
          "login_required": True,
          'extra_context': {'title': _('Delete question')}
@@ -385,6 +392,9 @@ def editable_survey_list(request,
                          template_name = "survey/editable_survey_list.html",
                          extra_context=None,
                          *args, **kw):
+    if not request.user.is_staff:
+        raise Http404()
+
     login_user= request.user
 
     return object_list(request,
@@ -448,7 +458,7 @@ def answers_detail(request, survey_slug, key,
         return HttpResponse(unicode(_('Insufficient Privileges.')), status=403)
     return render_to_response(template_name,
         {'survey': survey, 'submission': answers,
-         'title': survey.title + u' - ' + unicode(_('Submission'))},
+         'title': survey.title},
         context_instance=RequestContext(request))
 
 def delete_image(request, model_string,object_id):

@@ -1,7 +1,7 @@
 from models import QTYPE_CHOICES, Answer, Survey, Question, Choice
 from django.conf import settings
 from django.forms import BaseForm, Form, ValidationError
-from django.forms import CharField, ChoiceField, SplitDateTimeField,\
+from django.forms import CharField, IntegerField, ChoiceField, SplitDateTimeField,\
                             CheckboxInput, BooleanField,FileInput,\
                             FileField, ImageField
 from django.forms import Textarea, TextInput, Select, RadioSelect,\
@@ -63,9 +63,17 @@ class BaseAnswerForm(Form):
     def save(self, commit=True):
         if not self.cleaned_data['answer']:
             if self.fields['answer'].required:
+	        if self.cleaned_data['answer'] == 0:
+			return
                 raise ValidationError, _('This field is required.')
             return
-        ans = self.answer
+        ans = self._saveable_answer(self.answer)
+
+        ans.text = self.cleaned_data['answer']
+        if commit: ans.save()
+        return ans
+
+    def _saveable_answer(self, ans=None):
         if ans is None:
             ans = Answer()
         ans.question = self.question
@@ -75,12 +83,28 @@ class BaseAnswerForm(Form):
         else:
             ans.user = None
         ans.interview_uuid = self.interview_uuid
-        ans.text = self.cleaned_data['answer']
-        if commit: ans.save()
         return ans
 
 class TextInputAnswer(BaseAnswerForm):
     answer = CharField()
+
+class IntegerAnswer(BaseAnswerForm):
+    answer = IntegerField()
+
+    def __init__(self, *args, **kwdargs):
+        super(IntegerAnswer, self).__init__(*args, **kwdargs)
+        qtype = self.question.qtype
+        if len(qtype) == 2:
+            self.fields['answer'].widget = TextInput(attrs={'size':qtype[1]})
+
+    def clean_answer(self):
+        qtype = self.question.qtype
+        response = self.cleaned_data['answer']
+        if len(qtype) == 2 and response is not None and self.fields['answer'].required:
+	    print response
+            if len(str(response)) > int(qtype[1]):
+                raise ValidationError, _('Please enter a %s or less digits number.') % qtype[1]
+        return response
 
 class TextAreaAnswer(BaseAnswerForm):
     answer = CharField(widget=Textarea)
@@ -185,9 +209,7 @@ class ChoiceCheckbox(BaseAnswerForm):
             return
         ans_list = []
         for text in self.cleaned_data['answer']:
-            ans = Answer()
-            ans.question = self.question
-            ans.session_key = self.session_key
+            ans = self._saveable_answer()
             ans.text = text
             if commit: ans.save()
             ans_list.append(ans)
@@ -198,6 +220,11 @@ class ChoiceCheckbox(BaseAnswerForm):
 QTYPE_FORM = {
     'T': TextInputAnswer,
     'A': TextAreaAnswer,
+    'i': IntegerAnswer,
+    'i2': IntegerAnswer,
+    'i3': IntegerAnswer,
+    'i4': IntegerAnswer,
+    'i5': IntegerAnswer,
     'S': ChoiceAnswer,
     'R': ChoiceRadio,
     'I': ChoiceImage,
@@ -215,7 +242,7 @@ def forms_for_survey(survey, request, edit_existing=False):
     else:
         post = None
     return [QTYPE_FORM[q.qtype](q, login_user, random_uuid, session_key, prefix=sp+str(q.id), data=post, edit_existing=edit_existing)
-            for q in survey.questions.all().order_by("order") ]
+            for q in survey.questions.all().order_by("order")]
 
 class CustomDateWidget(TextInput):
     class Media:
