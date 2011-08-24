@@ -1,23 +1,25 @@
 {% load i18n %}
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <link rel="stylesheet" type="text/css" href="/media/js/extjs/resources/css/reset-min.css">
     <script type="text/javascript" src="{% url django.views.i18n.javascript_catalog %}"></script>
-    <link rel="stylesheet" href="/media/css/survey.css" type="text/css" media="screen,projection" />
+    <link rel="stylesheet" href="/{{ STATIC_PREFIX }}/css/survey.css" type="text/css" media="screen,projection" />
     <link rel="stylesheet" type="text/css" href="/media/js/extjs/resources/css/ext-all.css">
     <link rel="stylesheet" type="text/css" href="/media/js/extjs/resources/css/xtheme-gray.css">
     <script type="text/javascript" src="/media/js/extjs/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="/media/js/extjs/ext-all.js"></script>
     <script type="text/javascript" src="/media/js/extjs/examples/ux/CheckColumn.js"></script>
 
-    <script type="text/javascript" src="/media/js/survey/ux/MessageBus.js"></script>
-    <script type="text/javascript" src="/media/js/survey/ux/DynamicFormPanel.js"></script>
-    <script type="text/javascript" src="/media/js/survey/SurveyList.js"></script>
-    <script type="text/javascript" src="/media/js/survey/QuestionList.js"></script>
-    <script type="text/javascript" src="/media/js/survey/QuestionDetails.js"></script>
-    <script type="text/javascript" src="/media/js/survey/ChoiceList.js"></script>
-    <script type="text/javascript" src="/media/js/survey/survey.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/ux/MessageBus.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/ux/DynamicFormPanel.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/SurveyList.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/QuestionList.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/QuestionDetails.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/ChoiceList.js"></script>
+    <script type="text/javascript" src="{{ STATIC_PREFIX }}/js/survey/survey.js"></script>
 
     <link rel="stylesheet" type="text/css" href="/media/css/fam/silk.css">
 </head>
