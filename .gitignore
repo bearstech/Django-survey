@@ -1,0 +1,12 @@
+*~
+*.pyc
+*.pyo
+*.pyt
+*.pytc
+.DS_Store
+.*.swp
+Django-survey.egg-info
+.coverage
+docs/_build
+dist
+build/
