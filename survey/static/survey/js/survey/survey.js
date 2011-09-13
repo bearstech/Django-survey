@@ -4,6 +4,7 @@ Ext.onReady(function() {
 	Ext.QuickTips.init();
 	Ext.ux.msgBus = new Ext.ux.MessageBus();
 
+
 	Ext.Ajax.on('beforerequest', function (conn, options) {
 		   if (!(/^http:.*/.test(options.url) || /^https:.*/.test(options.url))) {
 		     if (typeof(options.headers) == "undefined") {
@@ -13,13 +14,17 @@ Ext.onReady(function() {
 		     }                        
 		   }
 		}, this);
-	
+		
 	var viewport = new Ext.Viewport({
 		layout : 'fit',
 		items : [ {
 			layout : 'border',
 			border : false,
-			items : [ Survey.UI.SurveyList(), Survey.UI.QuestionList(), {
+			items : [ Survey.UI.SurveyList(), {
+				layout:'border',
+				region:'center',
+				items:[Survey.UI.QuestionList(), Survey.UI.SurveyDetail()]
+			}, {
 				layout : 'border',
 				region:'east',
 				width:700,

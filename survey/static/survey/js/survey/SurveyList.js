@@ -8,7 +8,7 @@ Survey.Data.SurveyListStore = function(){
             idProperty: 'id',
             root: 'data',
             totalProperty: 'results',
-            fields: ['id', 'title', 'slug']
+            fields: ['id', 'title', 'slug', 'opens', 'closes']
         }),
         writer: new Ext.data.JsonWriter({
             encode: true
@@ -29,6 +29,30 @@ Survey.Data.SurveyListStore = function(){
 //------------------------------------------
 // ui
 //------------------------------------------
+Survey.UI.SurveyDetail = function() {
+    var form = Ext.ComponentMgr.create({
+        xtype: 'dynform',
+        region: 'south',
+        height:200,
+        split: true,
+        disabled: true,
+        title: gettext('Details'),
+        autoScroll: true,
+        id: 'survey-details'
+    });
+    Ext.ux.msgBus.subscribe('survey.selected', function(survey_id) {
+        var url = String.format('{0}surveys/{1}.form',  _baseUrl, survey_id);
+        params = {
+        };
+        form.setDisabled(false);
+        form.updateData(form, survey_id, url, params);
+    });
+    Ext.ux.msgBus.subscribe('survey.deselected', function() {
+    	form.setDisabled(true);
+    });
+    
+    return form;
+}
 
 
 Survey.UI.SurveyListColumnModel = function(){
@@ -50,11 +74,51 @@ Survey.UI.SurveyList = function(){
 		id:'survey-list',
         tbar: [{
             iconCls: 'silk-arrow-refresh',
+            text: gettext('Refresh'),
             tooltip: 'Rafraichir',
             scope: this,
             handler: function(btn, ev){
                 var grid = btn.ownerCt.ownerCt;
                 grid.getStore().reload();
+            }
+        }, {
+            iconCls: 'silk-add',
+            tooltip: gettext('Add survey'),
+            text: gettext('Add survey'),
+            scope: this,
+            handler: function(btn, event){
+                var grid = btn.ownerCt.ownerCt;
+                var store = grid.getStore();
+                var u = new store.recordType({
+                	title: gettext('new survey'),
+                	slug: gettext('new-survey'),
+                	opens: '2009-01-01',
+                	closes: '2014-01-01'
+                });
+                grid.store.add(u);
+            }
+        }, {
+            iconCls: 'silk-delete',
+            tooltip: gettext('Delete survey'),
+            text: gettext('Delete survey'),
+            scope: this,
+            handler: function(btn, evn){
+                Ext.Msg.show({
+                    title: gettext('Confirmation'),
+                    msg: gettext('Confirm delete?'),
+                    buttons: Ext.Msg.YESNOCANCEL,
+                    fn: function(b, text){
+                        if (b == 'yes') {
+                            var grid = btn.ownerCt.ownerCt;
+                            var sm = grid.getSelectionModel();
+                            if (sm.hasSelection()) {
+                                grid.store.remove(sm.getSelections());
+                            }
+                        }
+                    },
+                    icon: Ext.MessageBox.WARNING
+                });
+                
             }
         }],
         loadMask: false,

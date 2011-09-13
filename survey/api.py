@@ -21,7 +21,7 @@ from survey.grids import SurveyGrid, QuestionGrid, ChoiceGrid
 from django.utils import simplejson as json
 from extjs import utils
 
-from api_forms import QuestionForm, ChoiceForm
+from api_forms import QuestionForm, ChoiceForm, SurveyForm
 import api_utils
 
 def base(request):
@@ -32,6 +32,24 @@ def surveys(request, survey_id=None):
     if request.method == 'GET':
         qs = Survey.objects.all()
         return api_utils.response(request, qs, SurveyGrid)
+    elif request.method == 'POST':
+        form = api_utils.load_form(request, SurveyForm)
+        if form.is_valid():
+            survey = form.save(commit=False)
+            survey.created_by = request.user
+            survey.editable_by = request.user
+            survey.visible = True
+            survey.public = False
+            survey.allows_multiple_interviews = False
+            survey.save()
+            qs = Survey.objects.filter(id=survey.id)
+            return api_utils.response(request, qs, SurveyGrid)
+        else:
+            return api_utils.response_error(request, form)
+    elif request.method == 'DELETE':
+        survey = get_object_or_404(Survey, id=survey_id)
+        #survey.delete()
+        return api_utils.success()
     raise Http404
 
 @login_required
@@ -62,6 +80,31 @@ def questions(request, survey_id, question_id=None):
         question.delete()
         return api_utils.success()
     raise Http404
+
+@login_required   
+def edit_survey(request, survey_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    if request.method == 'GET':
+        form = SurveyForm(instance=survey)
+        info = {'id': survey.id,
+        }
+        data = {'info': info,
+                'form' : form.as_customized_extjs(survey),
+        }
+        json_data = json.JSONEncoder(ensure_ascii=False).encode({
+            'success':True,
+            'data': data 
+        })
+        return utils.JsonResponse(json_data)
+    elif request.method == 'POST':
+        form = SurveyForm(request.REQUEST, instance=survey)
+        if form.is_valid():
+            survey = form.save()
+            return api_utils.success()
+        else:
+            return utils.JsonResponse(form.as_extjsdata())          
+    raise Http404
+
 
 @login_required
 def question_recalculate_orders(request, survey_id):

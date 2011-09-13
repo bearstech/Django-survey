@@ -47,6 +47,7 @@ urlpatterns = patterns('',
     url(r'^api/$', 'survey.api.base'),
     url(r'^api/surveys$', 'survey.api.surveys'),
     url(r'^api/surveys/(?P<survey_id>\d+)$', 'survey.api.surveys'),
+    url(r'^api/surveys/(?P<survey_id>\d+).form$', 'survey.api.edit_survey'),
     
     url(r'^api/surveys/(?P<survey_id>\d+)/questions$', 'survey.api.questions'),
     url(r'^api/surveys/(?P<survey_id>\d+)/questions/(?P<question_id>\d+)$', 'survey.api.questions'),
