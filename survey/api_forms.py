@@ -8,10 +8,11 @@ import extjs
 class QuestionForm(forms.ModelForm):
     class Meta:
         model = Question
-        fields = ('id', 'order', 'text', 'qstyle', 'qtype')
+        fields = ('id', 'order', 'text', 'qstyle', 'qtype', 'required')
         
     def as_customized_extjs(self, question):
         fields = self.as_extjsfields(["text",
+                                      "required"
                                       "order",
                                       "qstyle",
                                       "qtype"])
@@ -28,6 +29,7 @@ class QuestionForm(forms.ModelForm):
                 'border': False,
                 'items': [
                     id,
+                    fields['required'],
                     fields['order'],
                     fields['qtype'],
                     fields['text'],
