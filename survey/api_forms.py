@@ -12,7 +12,7 @@ class QuestionForm(forms.ModelForm):
         
     def as_customized_extjs(self, question):
         fields = self.as_extjsfields(["text",
-                                      "required"
+                                      "required",
                                       "order",
                                       "qstyle",
                                       "qtype"])
