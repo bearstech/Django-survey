@@ -86,13 +86,13 @@ def survey_detail(request, survey_slug,
     # go ahead and redirect to the answers, or a thank you
     if not survey.allows_multiple_interviews and not allow_edit_existing_answers:
         if ((hasattr(request, 'session') and survey.has_answers_from(request.session.session_key)) or
-        (request.user.is_authenticated and survey.has_answers_from_user(request.user))):
+        (request.user.is_authenticated() and survey.has_answers_from_user(request.user))):
             return _survey_redirect(request, survey,group_slug=group_slug)
 
     # if the survey is restricted to authentified user redirect
     # annonymous user to the login page
-    if survey.restricted and str(request.user) == "AnonymousUser":
-        return HttpResponseRedirect(reverse("acct_login")+"?next=%s" % request.path)
+    if survey.restricted and request.user.is_anonymous():
+        return HttpResponseRedirect(settings.LOGIN_URL+"?next=%s" % request.path)
     if request.POST and not hasattr(request, 'session'):
         return HttpResponse(unicode(_('Cookies must be enabled.')), status=403)
 
