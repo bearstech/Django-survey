@@ -49,6 +49,19 @@ Survey.Handler.RecalculateQuestionOrders = function(grid, survey_id) {
         }
     });
 }
+Survey.Handler.DuplicateQuestion = function(grid, survey_id, question_id) {
+    Ext.Ajax.request({
+        url: String.format('{0}surveys/{1}/questions/{2}/duplicate', _baseUrl, survey_id, question_id),
+        failure: function(result, request){
+        },
+        success: function(result, request){
+            if (result.status != 200) {
+                return;
+            }
+        	grid.getStore().reload();
+        }
+    });
+}
 //------------------------------------------
 //ui
 //------------------------------------------
@@ -142,6 +155,18 @@ Survey.UI.QuestionList = function(){
                 grid.store.add(u);
             }
         }, {
+        	iconCls: 'silk-page-copy',
+        	tooltip: gettext('Duplicate question'),
+        	text: gettext('Duplicate'),
+        	handler: function(btn, evn) {
+                var grid = btn.ownerCt.ownerCt;
+                var sm = grid.getSelectionModel();
+                if (sm.hasSelection()) {
+                	var record = sm.getSelected();
+                	Survey.Handler.DuplicateQuestion(grid, grid.survey_id, record.data.id);
+                }
+        	}
+        },{
             iconCls: 'silk-delete',
             tooltip: gettext('Delete question'),
             text: gettext('Delete question'),

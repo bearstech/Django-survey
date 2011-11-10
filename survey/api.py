@@ -142,6 +142,16 @@ def edit_question(request, survey_id, question_id=None):
             return utils.JsonResponse(form.as_extjsdata())          
     raise Http404
 
+@login_required   
+def duplicate_question(request, survey_id, question_id):
+    survey = get_object_or_404(Survey, id=survey_id)
+    question = get_object_or_404(Question, id=question_id)
+    question.duplicate()
+    json_data = json.JSONEncoder(ensure_ascii=False).encode({
+        'success':True,
+    })
+    return utils.JsonResponse(json_data)
+
 def choices(request, survey_id, question_id, choice_id=None):
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'GET':

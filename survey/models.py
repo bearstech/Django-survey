@@ -199,6 +199,20 @@ class Question(models.Model):
         self._answer_count = self.answers.count()
         return self._answer_count
 
+    def duplicate(self):
+        new_question = Question(survey=self.survey,
+                                qtype=self.qtype,
+                                required=self.required,
+                                text=self.text,
+                                order=self.order,
+                                qstyle=self.qstyle)
+        new_question.save()
+        choices = Choice.objects.filter(question=self)
+        for choice in choices:
+            new_choice = Choice(question=new_question,
+                                text=choice.text,
+                                order=choice.order)
+            new_choice.save()
 
     def __unicode__(self):
         return u' - '.join([self.survey.slug, self.text])
